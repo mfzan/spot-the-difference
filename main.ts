@@ -40,6 +40,12 @@ const dossierCaps = {
 };
 
 mkdirSync(outDir, { recursive: true });
+
+// The game is nothing without its page: refuse to hand in an empty
+// folder rather than shipping a dossier that points at nothing.
+if (!existsSync(join(repoRoot, 'game', 'index.html'))) {
+  throw new Error('game/index.html is missing: nothing to hand in');
+}
 cpSync(join(repoRoot, 'game'), join(outDir, 'game'), { recursive: true });
 
 const shotsDir = join(outDir, 'screenshots');
